@@ -1,5 +1,6 @@
 <?php
-$path = "./";
+session_start();
+$path = ".";
 $title = "Danh mục sản phẩm";
 require_once './htassets/require.php';
 $id = $_GET["id"];
@@ -22,7 +23,7 @@ getSimplequerry($sql);
             ?>
                 <div class="fa_pro">
                     <div class="pro_img">
-                        <img src="images/products/<?= $pro['pro_image'] ?>" alt="">
+                        <img src="images/products/<?= $pro['pro_avatar'] ?>" alt="">
                     </div>
                     <div class="pro_info">
                         <p class="pro_title"><?= $pro['pro_name'] ?></p>

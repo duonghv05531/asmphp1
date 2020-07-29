@@ -1,12 +1,10 @@
-<?php
-
-?>
 <div class="nav">
+    <p>Xin chào: <?= $_SESSION['username'] ?></p>
     <ul>
-        <li>Về trang chủ</li>
-        <li>User</li>
-        <li>Categoties</li>
-        <li>Products</li>
-        <li>Web Settings</li>
+        <li><a href="../">Client</a></li>
+        <li><a href="user.php">User</a></li>
+        <li><a href="category.php">Categoties</a></li>
+        <li><a href="product.php">Product</a></li>
+        <li><a href="../logout.php">Đăng xuất</a></li>
     </ul>
 </div>

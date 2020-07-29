@@ -1,10 +1,10 @@
 <?php
 require_once '../permission.php';
-$header = "product";
+$header = "user";
 $path = "../";
 require_once '../htassets/dbconnection.php';
-// lay id tren url
+//lay id tren url
 $id = $_GET['id'];
-$sql = "delete from products where pro_id = $id";
-//goi ham delete
+// goi ham xoa
+$sql = "delete from users where user_id = $id";
 deleteQuery($sql, $header);
