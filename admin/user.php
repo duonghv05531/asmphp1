@@ -6,6 +6,7 @@ require_once '../htassets/require.php';
 $sql = "select * from users";
 getSimplequerry($sql);
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,11 +61,15 @@ getSimplequerry($sql);
                             <td><?= $user['user_password'] ?></td>
                             <td><?= $user['user_email'] ?></td>
                             <td>
-                                <img src="../images/avatar/<?= $user['avatar'] ?>" alt="">
+                                <img src="../images/user/<?= $user['avatar'] ?>" alt="">
                             </td>
-                            <td><?= $user['user_role'] ?></td>
-                            <td><a href="ad_user_delete.php?id=<?= $user['user_id'] ?>"><button type="submit">Xóa</button></a>
-                                <button type="submit">Sửa</button>
+                            <td>
+                                <?= $user['user_role'] == 1 ? "Admin" : "" ?>
+                                <?= $user['user_role'] == 2 ? "Nhân viên" : "" ?>
+                                <?= $user['user_role'] == 3 ? "Khách hàng" : "" ?>
+                            </td>
+                            <td><a onclick="return confirm('Bạn có chắc chắn xóa tài khoản này')" href="ad_user_delete.php?id=<?= $user['user_id'] ?>"><button type="submit">Xóa</button></a>
+                                <a style="color: black;" href="ad_user_update.php?id=<?= $user['user_id'] ?>"><button type="submit">Sửa</button></a>
                             </td>
                         </tr>
                     <?php endforeach ?>

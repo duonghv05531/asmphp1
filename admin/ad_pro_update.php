@@ -9,28 +9,34 @@ $pro = getSimplequerryOne($sql);
 $catesql = "select * from categories";
 getSimplequerry($catesql);
 if (isset($_POST['btn'])) {
-    $cate_id = $_POST['cate_id'];
-    $pro_name = $_POST['pro_name'];
-    $pro_quantity = $_POST['pro_quantity'];
-    $pro_price = $_POST['pro_price'];
-    $pro_sale = $_POST['pro_sale'];
-    $pro_sortdesc = $_POST['pro_sortdesc'];
-    $pro_desc = $_POST['pro_desc'];
-    $pro_mate = $_POST['pro_mate'];
-    $pro_size = $_POST['pro_size'];
-    $pro_color = $_POST['pro_color'];
-    $pro_avatar = getNameImgUpdate("pro_avatar");
-    $pro_img1 = getNameImgUpdate("pro_img1");
-    $pro_img2 = getNameImgUpdate("pro_img2");
-    $pro_img3 = getNameImgUpdate("pro_img3");
-    $updatesql = "update products set cate_id = '$cate_id', pro_name = '$pro_name'$pro_avatar $pro_img1
-    $pro_img2 $pro_img3, pro_quantity = '$pro_quantity', pro_price = '$pro_price', pro_sale = '$pro_sale', 
-    pro_sortdesc = '$pro_sortdesc', pro_desc = '$pro_desc', pro_mate = '$pro_mate', pro_size = '$pro_size', pro_color = '$pro_color' 
-    where pro_id = $id
-    ";
-    addValuesquery($updatesql);
-    header("location:product.php?message=suadulieuthanhcong");
-    die;
+    extract($_REQUEST);
+    if (
+        $cate_id == "" || $pro_name == "" || $pro_quantity == "" || $pro_price == "" || $pro_sale == "" || $pro_sortdesc == "" || $pro_sortdesc == "" ||
+        $pro_mate == "" || $pro_size == "" || $pro_color == ""
+    ) {
+        $fillerror = "mời nhập đủ thông tin";
+    } else {
+        $pro_avatar = getNameImgUpdate("pro_avatar");
+        move_uploaded_file($_FILES['pro_avatar']['tmp_name'], '../images/products/' . $_FILES['pro_avatar']['name']);
+
+        $pro_img1 = getNameImgUpdate("pro_img1");
+        move_uploaded_file($_FILES['pro_img1']['tmp_name'], '../images/products/' . $pro_img1);
+
+        $pro_img2 = getNameImgUpdate("pro_img2");
+        move_uploaded_file($_FILES['pro_img2']['tmp_name'], '../images/products/' . $pro_img2);
+
+        $pro_img3 = getNameImgUpdate("pro_img3");
+        move_uploaded_file($_FILES['pro_img3']['tmp_name'], '../images/products/' . $pro_img3);
+
+        $updatesql = "update products set cate_id = '$cate_id', pro_name = '$pro_name'$pro_avatar $pro_img1
+        $pro_img2 $pro_img3, pro_quantity = '$pro_quantity', pro_price = '$pro_price', pro_sale = '$pro_sale', 
+        pro_sortdesc = '$pro_sortdesc', pro_desc = '$pro_desc', pro_mate = '$pro_mate', pro_size = '$pro_size', pro_color = '$pro_color' 
+        where pro_id = $id
+        ";
+        addValuesquery($updatesql);
+        header("location:product.php?message=suadulieuthanhcong");
+        die;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -43,7 +49,7 @@ if (isset($_POST['btn'])) {
         <?php include './admin_asset/header.php' ?>
         <div class="main">
             <div class="side-bar">
-                <h2 style="margin-left: 50%;margin-top:1px">Thêm mới sản phẩm</h2>
+                <h2 style="margin-left: 50%;margin-top:1px">Sửa sản phẩm</h2>
                 <form action="" method="post" enctype="multipart/form-data">
 
                     <div class="side">
@@ -59,7 +65,7 @@ if (isset($_POST['btn'])) {
                         <p class="ad-pro-p">Kích cỡ</p>
                         <input class="ad-pro-in" type="text" name="pro_size" value="<?= $pro['pro_size'] ?>"><br> <br>
                         <p class="ad-pro-p">Mô tả chi tiết</p>
-                        <textarea style="margin-left: 30%;" name="pro_desc" cols="40" rows="8"><?= $pro['pro_desc'] ?></textarea> <br><br>
+                        <textarea style="margin-left: 30%;" name="pro_desc" cols="30" rows="8"><?= $pro['pro_desc'] ?></textarea> <br><br>
                         <br>
                         <p class="ad-pro-p">Avatar</p>
                         <img style="width:170px" src="../images/products/<?= $pro['pro_avatar'] ?>" alt="">
@@ -67,7 +73,8 @@ if (isset($_POST['btn'])) {
                         <p class="ad-pro-p">Ảnh 2</p>
                         <img style="width:170px" src="../images/products/<?= $pro['pro_img2'] ?>" alt="">
                         <input class="ad-pro-in" type="file" name="pro_img2"> <br> <br>
-                        <button type="submit" name="btn">Lưu</button>
+                        <?= isset($fillerror) ? "<p>" . $fillerror . "</p>" : "" ?> <br>
+                        <button style="margin-left: 30%;" type="submit" name="btn">Lưu</button>
                     </div>
                     <div class="side">
                         <br> <br>

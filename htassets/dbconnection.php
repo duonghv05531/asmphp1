@@ -54,14 +54,7 @@ function deleteQuery($sql, $header)
 //ham lay ten va di chuyen file anh 
 function getNameImg($name_get)
 {
-    if ($_FILES["$name_get"]['size'] > 0) {
-        return $_FILES["$name_get"]["name"];
-    } else {
-        return "";
-    }
-    if (!empty($name_get)) {
-        move_uploaded_file($_FILES['name_$name_get']['tmp_name'], "../images/products/" . $name_get);
-    }
+    return $_FILES[$name_get]['name'];
 }
 function getNameImgUpdate($name_get)
 {
@@ -69,8 +62,5 @@ function getNameImgUpdate($name_get)
         return ",$name_get = '" . $_FILES["$name_get"]["name"] . "'";
     } else {
         return "";
-    }
-    if (!empty($name_get)) {
-        move_uploaded_file($_FILES['name_$name_get']['tmp_name'], "../images/products/" . $name_get);
     }
 }

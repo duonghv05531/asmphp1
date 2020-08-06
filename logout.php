@@ -1,5 +1,5 @@
 <?php session_start();
-if (isset($_SESSION['username'])) {
-    unset($_SESSION['username']);
+if (isset($_SESSION['user_name'])) {
+    unset($_SESSION['user_name']);
 }
-header("location:login.php?message=dang xuat thanh cong");
+header("location:login.php");

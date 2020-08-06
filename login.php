@@ -1,29 +1,27 @@
 <?php
-if (isset($_SESSION['username'])) {
-    header("location:./?message=dangnhapthanhcong");
-    die();
-}
 session_start();
 require_once './htassets/dbconnection.php';
 $title = "Đăng nhập";
 $path = ".";
-
 if (isset($_POST['login'])) {
-    $user_name = $_POST['user_name'];
-    $password = $_POST['user_password'];
-    $sql = "select * from users where user_name = '$user_name'";
-    $rl = getSimplequerryOne($sql);
-    if ($rl == "") {
-        header("location:login.php?message=Tai khoan khong ton tai");
+    extract($_REQUEST);
+    if ($user_name == "") {
+        $usererr = "Yêu cầu nhập đủ thông tin tài khoản mật khẩu";
+    } elseif ($user_password == "") {
+        $passerr = "Yêu cầu nhập mật khẩu";
     } else {
-        if ($password != $rl['user_password']) {
-            header("location:login.php?message=Mat khau khong chinh xac");
+        $sql = "select * from users where user_name = '$user_name'";
+        $rl = getSimplequerryOne($sql);
+        if ($rl != false) {
+            if (password_verify($user_password, $rl['user_passwordhash'])) {
+
+                $_SESSION['user_name'] = $user_name;
+                $_SESSION['user_email'] = $rl['user_email'];
+                $_SESSION['user_role'] = $rl['user_role'];
+                header("location:index.php");
+            }
         } else {
-            $_SESSION['username'] = $user_name;
-            $_SESSION['password'] = $password;
-            $_SESSION['email'] = $rl['user_email'];
-            $_SESSION['role'] = $rl['user_role'];
-            header("location:./?message=Dang nhap thanh cong");
+            $usererr = "Tên đăng nhập chưa chính xác";
         }
     }
 }
@@ -40,13 +38,16 @@ if (isset($_POST['login'])) {
         <div class="main">
             <form style="width:40%;margin:auto; padding-left: 400px" action="" method="post">
                 <p>Username</p>
-                <input type="text" name="user_name"> <br><br>
+                <input type="text" name="user_name" value="<?= isset($user_name) ? $user_name : "" ?>">
+                <span><?= isset($fillerr) ? $fillerr : "" ?></span><br><br>
                 <p>Password</p>
-                <input type="text" name="user_password"> <br>
-                <button type="submit" name="login">Đăng nhập</button>
+                <input type="text" name="user_password" value="<?= isset($user_password) ? $user_password : "" ?>">
+                <span><?= isset($passerr) ? $passerr : "" ?></span> <br> <br>
+                <button type=" submit" name="login">Đăng nhập</button>
 
             </form>
         </div>
+        <?php include './htassets/footer.php' ?>
     </div>
 </body>
 

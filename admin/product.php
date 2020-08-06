@@ -1,15 +1,14 @@
 <?php
 include '../permission.php';
-$title = "Admin";
+$title = "Product";
 $path = "../";
 require_once '../htassets/require.php';
-$sql = "SELECT products.pro_id,categories.cate_name,products.pro_name,products.pro_avatar,products.pro_quantity,products.pro_price,
+$sql = "SELECT products.pro_id,categories.cate_id,categories.cate_name,products.pro_name,products.pro_avatar,products.pro_quantity,products.pro_price,
     products.pro_sale,products.pro_sortdesc,products.pro_desc,pro_mate,pro_size,pro_color FROM
     products INNER JOIN categories ON products.cate_id = categories.cate_id";
 // goi ham xoa
 getSimplequerry($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -63,24 +62,23 @@ include '../htassets/head.php'; ?>
                         <a href="ad_pro_add.php"><button class="ad-bt" type="submit">Thêm</button></a>
                     </th>
                 </thead>
-
                 <tbody>
                     <?php foreach ($values as $pro) : ?>
                         <tr>
                             <td><?= $pro['pro_id'] ?></td>
-                            <td><?= $pro['cate_name'] ?></td>
-                            <td><?= $pro['pro_name'] ?></td>
+                            <td><a style="color: black;" href="../category.php?id=<?= $pro['pro_id'] ?>"><?= $pro['cate_name'] ?></a></td>
+                            <td><a style=" color: black;" href="../pro_info.php?id=<?= $pro['pro_id'] ?>"><?= $pro['pro_name'] ?></a></td>
                             <td><img src="../images/products/<?= $pro['pro_avatar'] ?>" alt=""></td>
                             <td><?= $pro['pro_quantity'] ?></td>
                             <td><?= $pro['pro_price'] ?></td>
                             <td><?= $pro['pro_sale'] ?></td>
                             <td><?= $pro['pro_sortdesc'] ?></td>
-                            <td><textarea name="" cols="50" rows="10"><?= $pro['pro_desc'] ?></textarea></td>
+                            <td><?= $pro['pro_desc'] ?></td>
                             <td><?= $pro['pro_mate'] ?></td>
                             <td><?= $pro['pro_size'] ?></td>
                             <td><?= $pro['pro_color'] ?></td>
 
-                            <td><a href="ad_pro_delete.php?id=<?= $pro['pro_id'] ?>"><button class="ad-bt" type="submit">Xóa</button></a> <br>
+                            <td><a onclick="return confirm('Bạn có chắc chắn xóa sản phẩm này không')" href="ad_pro_delete.php?id=<?= $pro['pro_id'] ?>"><button class="ad-bt" type="submit">Xóa</button></a> <br>
                                 <a href="ad_pro_update.php?id=<?= $pro['pro_id'] ?>"><button class="ad-bt" type="submit">Sửa</button></a>
                             </td>
                         </tr>
